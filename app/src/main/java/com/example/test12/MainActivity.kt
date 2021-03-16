@@ -45,7 +45,7 @@ class MainActivity : AppCompatActivity() {
              */
 
             //test call to wait time API
-            RetrofitServiceFactory.createWaitTimeService().getWaitTimesForAirport("MIA") //AMM return 3 hours
+            /*RetrofitServiceFactory.createWaitTimeService().getWaitTimesForAirport("MIA") //AMM return 3 hours
                 .enqueue(object: Callback<JsonObject>{
                     override fun onResponse(call: Call<JsonObject>, response: Response<JsonObject>) {
                         val responseAsJSON = JSONObject(Gson().toJson(response.body()))
@@ -58,6 +58,22 @@ class MainActivity : AppCompatActivity() {
                     }
 
                 })
+             */
+
+            //test call to airport API
+            RetrofitServiceFactory.createAirportService().getAirportInfo("MIA")
+                    .enqueue(object: Callback<JsonObject>{
+                        override fun onResponse(call: Call<JsonObject>, response: Response<JsonObject>) {
+                            val responseAsJSON = JSONObject(Gson().toJson(response.body()))
+                            val latitudeAndLongitude = Utils.getLatitudeAndLongitude(responseAsJSON)
+                            binding.tvResult.text = latitudeAndLongitude.toString()
+                        }
+
+                        override fun onFailure(call: Call<JsonObject>, t: Throwable) {
+                            Toast.makeText(applicationContext, t.message, Toast.LENGTH_SHORT).show()
+                        }
+
+                    })
         }
 
     }
