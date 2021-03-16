@@ -71,16 +71,20 @@ class RetrofitServiceFactory {
             return retrofit.create(AirportService::class.java)
 
         }
+
+        fun createGraphHopperService(): GraphHopperService{
+            retrofitBuilder.baseUrl("https://graphhopper.com/api/1/")
+            httpClient.interceptors().clear()
+            retrofitBuilder.client(httpClient.build())
+            retrofit = retrofitBuilder.build()
+
+            return retrofit.create(GraphHopperService::class.java)
+        }
+
+
     }
 
-    fun createGoogleDirectionsService(): GoogleDirectionsService{
-        retrofitBuilder.baseUrl("//maps.googleapis.com/maps/api/")
-        httpClient.interceptors().clear()
-        retrofitBuilder.client(httpClient.build())
-        retrofit = retrofitBuilder.build()
 
-        return retrofit.create(GoogleDirectionsService::class.java)
-    }
 
 
 }
