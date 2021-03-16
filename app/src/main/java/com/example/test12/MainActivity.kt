@@ -74,6 +74,21 @@ class MainActivity : AppCompatActivity() {
                         }
 
                     })
+
+            RetrofitServiceFactory.createGoogleDirectionsService().getDirections("Disneyland", "Universal", "AIzaSyCcXsi2vzNhRq2IalQfwaNoJ5dNSA84cx0")
+                    .enqueue(object: Callback<JsonObject>{
+                        override fun onResponse(call: Call<JsonObject>, response: Response<JsonObject>) {
+                            val responseAsJSON = JSONObject(Gson().toJson(response.body()))
+                            val latitudeAndLongitude = Utils.getLatitudeAndLongitude(responseAsJSON)
+                            binding.tvResult.text = latitudeAndLongitude.toString()
+                        }
+
+                        override fun onFailure(call: Call<JsonObject>, t: Throwable) {
+                            Toast.makeText(applicationContext, t.message, Toast.LENGTH_SHORT).show()
+                        }
+
+                    })
+
         }
 
     }

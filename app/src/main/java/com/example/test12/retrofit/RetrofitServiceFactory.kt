@@ -71,15 +71,15 @@ class RetrofitServiceFactory {
             return retrofit.create(AirportService::class.java)
 
         }
-    }
 
-    fun createGoogleDirectionsService(): GoogleDirectionsService{
-        retrofitBuilder.baseUrl("//maps.googleapis.com/maps/api/")
-        httpClient.interceptors().clear()
-        retrofitBuilder.client(httpClient.build())
-        retrofit = retrofitBuilder.build()
+        fun createGoogleDirectionsService(): GoogleDirectionsService{
+            retrofitBuilder.baseUrl("https://maps.googleapis.com/maps/api/directions/json")
+            httpClient.interceptors().clear()
+            retrofitBuilder.client(httpClient.build())
+            retrofit = retrofitBuilder.build()
 
-        return retrofit.create(GoogleDirectionsService::class.java)
+            return retrofit.create(GoogleDirectionsService::class.java)
+        }
     }
 
 
