@@ -46,41 +46,15 @@ class Utils {
         }
 
 
-        //TODO: NEEDS TESTING
-        fun getDurationFromGoogleDestinationResponse(response: JSONObject): Int{
-            //In case each route had a duration object (or duration in traffic)
-            val routes = response.getJSONArray("routes")
+        fun getTimeInMinutesFromGraphHopperResponse(response: JSONObject): Int{ //returns the longest path
+            val paths = response.getJSONArray("paths")
             var mx = -1
-            /*
-            for(i in 0 until routes.length()){
-                if (routes.getJSONObject(i).has("duration_in_traffic")){
-                    if (routes.getJSONObject(i).getJSONObject("duration_in_traffic").getInt("value")>mx){
-                        mx = routes.getJSONObject(i).getJSONObject("duration_in_traffic").getInt("value")
-                    }
+            for(i in 0 until paths.length()){
+                if (paths.getJSONObject(i).getInt("time")>mx){
+                    mx = paths.getJSONObject(i).getInt("time")
                 }
-                else{
-                    if (routes.getJSONObject(i).getJSONObject("duration").getInt("value")>mx){
-                        mx = routes.getJSONObject(i).getJSONObject("duration").getInt("value")
-                    }
-                }
-
             }
-             */
-
-            //in case route objects don't have duration
-            for(i in 0 until routes.length()){
-                var sum = 0
-                val legs = routes.getJSONObject(i).getJSONArray("legs")
-                for(j in 0 until legs.length()){
-                    val steps = legs.getJSONObject(j).getJSONArray("steps")
-                    for(k in 0 until steps.length()){
-                        sum += steps.getJSONObject(k).getJSONObject("duration").getInt("value")
-                    }
-                }
-                if (sum > mx) mx = sum
-            }
-
-            return mx/60
+            return mx/1000/60
         }
     }
 }

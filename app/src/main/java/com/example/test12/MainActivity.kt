@@ -61,7 +61,7 @@ class MainActivity : AppCompatActivity() {
              */
 
             //test call to airport API
-            RetrofitServiceFactory.createAirportService().getAirportInfo("MIA")
+            /*RetrofitServiceFactory.createAirportService().getAirportInfo("MIA")
                     .enqueue(object: Callback<JsonObject>{
                         override fun onResponse(call: Call<JsonObject>, response: Response<JsonObject>) {
                             val responseAsJSON = JSONObject(Gson().toJson(response.body()))
@@ -75,20 +75,27 @@ class MainActivity : AppCompatActivity() {
 
                     })
 
-            RetrofitServiceFactory.createGoogleDirectionsService().getDirections("Disneyland", "Universal", "AIzaSyCcXsi2vzNhRq2IalQfwaNoJ5dNSA84cx0")
-                    .enqueue(object: Callback<JsonObject>{
+            */
+
+            val points = ArrayList<String>()
+            //sample data
+            points.add("31.989143549718108,35.86185666225099") //origin (my house)
+            //points.add("31.990878495552742,35.86631239846654") //destination (Amman mall)
+            points.add("32.024086035555264,35.87628902029236") //destination (PSUT)
+            //if you want to test other locations, go to google maps, right click somewhere and copy the latitude and longitude
+
+            RetrofitServiceFactory.createGraphHopperService().getDirections(points, "6f127006-930a-4e51-8c5b-891c5adb7fc2")
+                    .enqueue(object : Callback<JsonObject> {
                         override fun onResponse(call: Call<JsonObject>, response: Response<JsonObject>) {
                             val responseAsJSON = JSONObject(Gson().toJson(response.body()))
-                            val latitudeAndLongitude = Utils.getLatitudeAndLongitude(responseAsJSON)
-                            binding.tvResult.text = latitudeAndLongitude.toString()
+                            binding.tvResult.text = Utils.getTimeInMinutesFromGraphHopperResponse(responseAsJSON).toString()
                         }
 
                         override fun onFailure(call: Call<JsonObject>, t: Throwable) {
-                            Toast.makeText(applicationContext, t.message, Toast.LENGTH_SHORT).show()
+                            binding.tvResult.text = t.toString()
                         }
 
                     })
-
         }
 
     }
