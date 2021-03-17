@@ -2,6 +2,9 @@ package com.example.test12.retrofit
 
 import org.json.JSONArray
 import org.json.JSONObject
+import java.time.LocalDateTime
+import java.time.ZonedDateTime
+import java.time.format.DateTimeFormatter
 import kotlin.collections.ArrayList
 
 class Utils {
@@ -55,6 +58,12 @@ class Utils {
                 }
             }
             return mx/1000/60
+        }
+
+
+        fun convertStringToZonedDateTime(data: String): ZonedDateTime {
+            val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ssZ")
+            return ZonedDateTime.parse(data, formatter)
         }
     }
 }

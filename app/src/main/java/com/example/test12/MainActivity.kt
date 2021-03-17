@@ -12,6 +12,12 @@ import org.json.JSONObject
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import java.time.LocalDateTime
+import java.time.OffsetDateTime
+import java.time.ZoneId
+import java.time.ZoneOffset
+import java.time.format.DateTimeFormatter
+import java.util.*
 
 class MainActivity : AppCompatActivity() {
     lateinit var binding: ActivityMainBinding
@@ -25,15 +31,19 @@ class MainActivity : AppCompatActivity() {
         binding.btnTest.setOnClickListener {
 
             //test call to flight info API
-            /*
-            RetrofitServiceFactory.createFlightInfoService().getFlightByAirlineAndNumber("RJ", "168")
+
+            RetrofitServiceFactory.createFlightInfoService().getFlightByAirlineAndNumber("AA", "2405")
                 .enqueue(object: Callback<JsonObject>{
                     override fun onResponse(call: Call<JsonObject>, response: Response<JsonObject>) {
                         val responseAsJSON = JSONObject(Gson().toJson(response.body()))
-                        Toast.makeText(applicationContext, test.getString("success"), Toast.LENGTH_SHORT).show()
                         //binding.tvResult.text = responseAsJSON.toString(1)
                         val estimatedDepartureTime = Utils.getEstimatedDepartureFromRequest(responseAsJSON)
-                        binding.tvResult.text = estimatedDepartureTime
+                        val zonedDateTime = Utils.convertStringToZonedDateTime(estimatedDepartureTime)
+                        val offsetDateTime = zonedDateTime.toOffsetDateTime().withOffsetSameInstant(OffsetDateTime.now().offset)
+                        binding.tvResult.text = DateTimeFormatter.ofPattern("dd/MM/yyyy hh:mm a").format(offsetDateTime)
+                        offsetDateTime.minusMinutes(5 /*PUT ALL MINUTES HERE AND DISPLAY THE RESULT*/)
+                        //WORKING WITH DATE/TIME OBJECTS IS FUN
+
                     }
 
                     override fun onFailure(call: Call<JsonObject>, t: Throwable) {
@@ -42,7 +52,7 @@ class MainActivity : AppCompatActivity() {
 
 
                 })
-             */
+
 
             //test call to wait time API
             /*RetrofitServiceFactory.createWaitTimeService().getWaitTimesForAirport("MIA") //AMM return 3 hours
@@ -76,7 +86,7 @@ class MainActivity : AppCompatActivity() {
                     })
 
             */
-
+            /*
             val points = ArrayList<String>()
             //sample data
             points.add("31.989143549718108,35.86185666225099") //origin (my house)
@@ -96,6 +106,8 @@ class MainActivity : AppCompatActivity() {
                         }
 
                     })
+
+             */
         }
 
     }
