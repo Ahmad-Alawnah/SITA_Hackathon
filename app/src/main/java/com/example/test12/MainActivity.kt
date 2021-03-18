@@ -1,8 +1,8 @@
 package com.example.test12
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.widget.Toast
+import android.view.View
+import androidx.appcompat.app.AppCompatActivity
 import com.example.test12.databinding.ActivityMainBinding
 import com.example.test12.retrofit.RetrofitServiceFactory
 import com.example.test12.retrofit.Utils
@@ -12,38 +12,56 @@ import org.json.JSONObject
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import java.time.LocalDateTime
 import java.time.OffsetDateTime
-import java.time.ZoneId
-import java.time.ZoneOffset
 import java.time.format.DateTimeFormatter
-import java.util.*
 
 class MainActivity : AppCompatActivity() {
+
     lateinit var binding: ActivityMainBinding
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        binding.mainResultLinearLayout.visibility = View.INVISIBLE
+
         //test flight: RJ 168
         //test airportCode: MIA, AMM
-        binding.btnTest.setOnClickListener {
+        binding.calculateButton.setOnClickListener {
+
+            val flightNumber = binding.flightNumberEditText.text
 
             //test call to flight info API
 
-            RetrofitServiceFactory.createFlightInfoService().getFlightByAirlineAndNumber("AA", "2405")
-                .enqueue(object: Callback<JsonObject>{
-                    override fun onResponse(call: Call<JsonObject>, response: Response<JsonObject>) {
+            RetrofitServiceFactory.createFlightInfoService().getFlightByAirlineAndNumber(
+                "AA",
+                "2405"
+            )
+                .enqueue(object : Callback<JsonObject> {
+                    override fun onResponse(
+                        call: Call<JsonObject>,
+                        response: Response<JsonObject>
+                    ) {
                         val responseAsJSON = JSONObject(Gson().toJson(response.body()))
                         //binding.tvResult.text = responseAsJSON.toString(1)
-                        val estimatedDepartureTime = Utils.getEstimatedDepartureFromRequest(responseAsJSON)
-                        val zonedDateTime = Utils.convertStringToZonedDateTime(estimatedDepartureTime)
-                        val offsetDateTime = zonedDateTime.toOffsetDateTime().withOffsetSameInstant(OffsetDateTime.now().offset)
-                        binding.tvResult.text = DateTimeFormatter.ofPattern("dd/MM/yyyy hh:mm a").format(offsetDateTime)
+                        val estimatedDepartureTime = Utils.getEstimatedDepartureFromRequest(
+                            responseAsJSON
+                        )
+                        val zonedDateTime = Utils.convertStringToZonedDateTime(
+                            estimatedDepartureTime
+                        )
+                        val offsetDateTime = zonedDateTime.toOffsetDateTime().withOffsetSameInstant(
+                            OffsetDateTime.now().offset
+                        )
+                        binding.tvResult.text =
+                            DateTimeFormatter.ofPattern("dd/MM/yyyy hh:mm a").format(
+                                offsetDateTime
+                            )
                         offsetDateTime.minusMinutes(5 /*PUT ALL MINUTES HERE AND DISPLAY THE RESULT*/)
                         //WORKING WITH DATE/TIME OBJECTS IS FUN
-
+                        binding.mainResultLinearLayout.visibility = View.VISIBLE
                     }
 
                     override fun onFailure(call: Call<JsonObject>, t: Throwable) {
