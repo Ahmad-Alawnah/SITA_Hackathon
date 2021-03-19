@@ -1,22 +1,19 @@
-package com.example.test12
+package com.example.sitahackathon
 
 import android.Manifest
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
-import android.location.Location
 import android.location.LocationManager
 import android.os.Bundle
 import android.os.Looper
-import android.util.Log
 import android.view.View
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
-import com.example.test12.databinding.ActivityMainBinding
-import com.example.test12.retrofit.RetrofitServiceFactory
-import com.example.test12.retrofit.Utils
+import com.example.sitahackathon.databinding.ActivityMainBinding
+import com.example.sitahackathon.retrofit.RetrofitServiceFactory
+import com.example.sitahackathon.retrofit.Utils
 import com.google.android.gms.location.*
 import com.google.android.gms.maps.model.LatLng
 import com.google.gson.Gson
@@ -27,7 +24,6 @@ import retrofit2.Callback
 import retrofit2.Response
 import java.time.OffsetDateTime
 import java.time.format.DateTimeFormatter
-
 
 
 class MainActivity : AppCompatActivity(){
@@ -54,7 +50,8 @@ class MainActivity : AppCompatActivity(){
         //test flight: RJ 168
         //test airportCode: MIA, AMM
         binding.calculateButton.setOnClickListener {
-
+            binding.mainResultLinearLayout.visibility = View.INVISIBLE
+            binding.warningMessageTextView.visibility = View.GONE
             binding.errorMessageTextView.visibility = View.GONE
             val airlineCode = binding.airlineCodeEditText.text.toString()
             val flightNumber = binding.flightNumberEditText.text.toString()
@@ -123,12 +120,11 @@ class MainActivity : AppCompatActivity(){
                                                 val time = Utils.getSumOfLongestCheckpointsOrBufferTimeInMinutes(responseAsJSON)
 
                                                 val points = ArrayList<String>()
-                                                points.add(userLocation.latitude.toString()+","+userLocation.longitude)
+                                                points.add(userLocation.latitude.toString() + "," + userLocation.longitude)
                                                 points.add(latitudeAndLongitude)
                                                 RetrofitServiceFactory.createGraphHopperService().getDirections(points, "6f127006-930a-4e51-8c5b-891c5adb7fc2")
                                                         .enqueue(object : Callback<JsonObject> {
                                                             override fun onResponse(call: Call<JsonObject>, response: Response<JsonObject>) {
-                                                                Log.e("JSON", response.body().toString())
 
                                                                 if (!response.isSuccessful) {
                                                                     binding.progressBar.visibility = View.GONE
@@ -145,14 +141,16 @@ class MainActivity : AppCompatActivity(){
                                                                         )
 
                                                                 if (OffsetDateTime.now().isAfter(departureTime)) {
-                                                                    //TODO: Print that the they missed the flight
+                                                                    binding.warningMessageTextView.visibility = View.VISIBLE
+                                                                    binding.warningMessageTextView.text = "⚠️ You missed your flight"
                                                                 } else if (OffsetDateTime.now().isAfter(offsetDateTime)) {
-                                                                    //TODO: Hurry up
+                                                                    binding.warningMessageTextView.visibility = View.VISIBLE
+                                                                    binding.warningMessageTextView.text = "⚠️ You need to hurry up to catch your flight"
                                                                 }
 
-                                                                binding.tvTotalTime.text = (totalTime / 60).toString() + "hours and " +
-                                                                        totalTime % 60 + " minutes"
-
+                                                                binding.tvTotalTime.text = (totalTime / 60).toString() + " Hours \n" +
+                                                                        totalTime % 60 + " Minutes"
+                                                                binding.progressBar.visibility = View.GONE
                                                                 binding.mainResultLinearLayout.visibility = View.VISIBLE
                                                             }
 
@@ -206,6 +204,7 @@ class MainActivity : AppCompatActivity(){
 
             if (isLocationAndInternetEnabled()) {
 
+                binding.warningMessageTextView.visibility = View.GONE
 
                 fusedLocationClient.lastLocation.addOnCompleteListener { task ->
                     val location = task.result
@@ -220,12 +219,13 @@ class MainActivity : AppCompatActivity(){
             }
 
             else {
-                //TODO: Ask the user to turn on their location and their internet
-                //If you wanna be fancy, take them to the settings
+                binding.warningMessageTextView.visibility = View.VISIBLE
+                binding.warningMessageTextView.text = "⚠️ Please enable location services to provide accurate data."
             }
         }
         else{
-            //TODO: if location permission is denied, display an note indicating that the application can't be used
+            binding.warningMessageTextView.visibility = View.VISIBLE
+            binding.warningMessageTextView.text = "⚠️ Please enable location services to provide accurate data."
             requestLocationPermissions()
         }
     }
@@ -238,21 +238,21 @@ class MainActivity : AppCompatActivity(){
         locationRequest.numUpdates = 1
 
         fusedLocationClient.requestLocationUpdates(locationRequest,
-        object: LocationCallback(){
-            override fun onLocationResult(p0: LocationResult) {
-                super.onLocationResult(p0)
-                var maxAccuracy: Float = -1.0f
-                var index = -1
-                for(i in 0 until p0.locations.size){
-                    if (p0.locations[i].accuracy > maxAccuracy){
-                        maxAccuracy = p0.locations[i].accuracy
-                        index = i
+                object : LocationCallback() {
+                    override fun onLocationResult(p0: LocationResult) {
+                        super.onLocationResult(p0)
+                        var maxAccuracy: Float = -1.0f
+                        var index = -1
+                        for (i in 0 until p0.locations.size) {
+                            if (p0.locations[i].accuracy > maxAccuracy) {
+                                maxAccuracy = p0.locations[i].accuracy
+                                index = i
+                            }
+                        }
+                        userLocation = LatLng(p0.locations[index].latitude, p0.locations[index].longitude)
+                        //Toast.makeText(applicationContext, userLocation.toString(), Toast.LENGTH_SHORT).show()
                     }
-                }
-                userLocation = LatLng(p0.locations[index].latitude, p0.locations[index].longitude)
-                //Toast.makeText(applicationContext, userLocation.toString(), Toast.LENGTH_SHORT).show()
-            }
-        }, Looper.myLooper()!!)
+                }, Looper.myLooper()!!)
 
     }
     
@@ -279,9 +279,11 @@ class MainActivity : AppCompatActivity(){
         if (requestCode == PERMISSION_REQUEST_CODE){
             if (grantResults.size > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED){
                 getCurrentLocation()
+                binding.warningMessageTextView.visibility = View.GONE
             }
             else{
-                //TODO: Display the same error for not granting permissions
+                binding.warningMessageTextView.visibility = View.VISIBLE
+                binding.warningMessageTextView.text = "⚠️ Please enable location services to provide accurate data."
             }
         }
     }

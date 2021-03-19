@@ -1,4 +1,4 @@
-package com.example.test12.retrofit
+package com.example.sitahackathon.retrofit
 
 import com.google.gson.JsonObject
 import retrofit2.Call

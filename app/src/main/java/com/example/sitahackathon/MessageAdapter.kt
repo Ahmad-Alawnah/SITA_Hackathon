@@ -1,11 +1,11 @@
-package com.example.test12
+package com.example.sitahackathon
 
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.example.test12.databinding.MessageBinding
+import com.example.sitahackathon.databinding.MessageBinding
 
 
 class MessageAdapter(var messages: ArrayList<Message>): RecyclerView.Adapter<MessageAdapter.MessageViewHolder>() {

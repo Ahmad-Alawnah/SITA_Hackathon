@@ -1,10 +1,9 @@
-package com.example.test12
+package com.example.sitahackathon
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.test12.databinding.ActivityChatbotBinding
+import com.example.sitahackathon.databinding.ActivityChatbotBinding
 
 class ChatbotActivity : AppCompatActivity() {
 
@@ -18,7 +17,6 @@ class ChatbotActivity : AppCompatActivity() {
         binding.rvMessages.adapter = this.adapter
         val layoutManager = LinearLayoutManager(binding.rvMessages.context, LinearLayoutManager.VERTICAL, false)
         binding.rvMessages.layoutManager = layoutManager
-        binding.rvMessages.addItemDecoration(DividerItemDecoration(binding.rvMessages.context, layoutManager.orientation))
         binding.btnAddMessage.setOnClickListener {
             if (binding.etText.toString().trim()!="") {
                 val message = Message(binding.etText.text.toString().trim(), MessageType.SENT)

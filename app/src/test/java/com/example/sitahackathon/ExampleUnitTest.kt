@@ -1,4 +1,4 @@
-package com.example.test12
+package com.example.sitahackathon
 
 import org.junit.Test
 

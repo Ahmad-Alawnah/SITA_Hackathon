@@ -1,9 +1,6 @@
-package com.example.test12.retrofit
+package com.example.sitahackathon.retrofit
 
-import android.util.Log
-import org.json.JSONArray
 import org.json.JSONObject
-import java.time.LocalDateTime
 import java.time.ZonedDateTime
 import java.time.format.DateTimeFormatter
 import kotlin.collections.ArrayList
