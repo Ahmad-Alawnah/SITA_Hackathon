@@ -24,12 +24,12 @@ class MessageAdapter(var messages: ArrayList<Message>): RecyclerView.Adapter<Mes
 
     override fun onBindViewHolder(holder: MessageViewHolder, position: Int) {
         if (messages[position].type == MessageType.SENT){
-            holder.binding.tvReply.visibility = View.INVISIBLE
-            holder.binding.tvMessage.text = messages[position].text
+            holder.binding.chatbotCardView.visibility = View.INVISIBLE
+            holder.binding.userTextView.text = messages[position].text
         }
         else{
-            holder.binding.tvMessage.visibility = View.INVISIBLE
-            holder.binding.tvReply.text = messages[position].text
+            holder.binding.userCardView.visibility = View.INVISIBLE
+            holder.binding.chatbotTextView.text = messages[position].text
         }
 
     }

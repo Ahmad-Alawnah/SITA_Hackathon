@@ -1,19 +1,18 @@
 package com.example.test12
 
-
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.test12.databinding.ActivityTestBinding
+import com.example.test12.databinding.ActivityChatbotBinding
 
-//TODO: Delete this activity once you finish testing the recyclerview
-class TestActivity : AppCompatActivity() {
-    lateinit var binding: ActivityTestBinding
+class ChatbotActivity : AppCompatActivity() {
+
+    lateinit var binding: ActivityChatbotBinding
     val adapter = MessageAdapter(ArrayList<Message>())
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityTestBinding.inflate(layoutInflater)
+        binding = ActivityChatbotBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         binding.rvMessages.adapter = this.adapter

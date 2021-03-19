@@ -68,32 +68,58 @@
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="25dp"
-        android:layout_marginBottom="40dp"
         android:orientation="vertical"
         app:layout_constraintBottom_toTopOf="@+id/mainResult_linearLayout"
-        app:layout_constraintStart_toStartOf="parent">
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginBottom="30dp">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="@font/notosansmedium"
-            android:text="Flight Number"
+            android:text="Flight Information"
             android:textColor="#9fa0aa"
             android:textSize="20sp"
-            app:layout_constraintBottom_toTopOf="@+id/cardView"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.498"
-            app:layout_constraintStart_toStartOf="parent" />
+            android:layout_marginStart="25dp"/>
 
-        <EditText
-            android:id="@+id/flightNumber_editText"
-            android:layout_width="225dp"
+        <LinearLayout
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:singleLine="true"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            android:orientation="horizontal"
+            android:weightSum="2"
+            android:layout_marginStart="25dp"
+            android:layout_marginEnd="25dp">
+
+            <EditText
+                android:id="@+id/airlineCode_editText"
+                android:layout_width="225dp"
+                android:layout_height="wrap_content"
+                android:singleLine="true"
+                android:hint="Airline Code"
+                android:layout_weight="1" />
+
+            <EditText
+                android:id="@+id/flightNumber_editText"
+                android:layout_width="225dp"
+                android:layout_height="wrap_content"
+                android:singleLine="true"
+                android:hint="Flight Number"
+                android:layout_weight="1" />
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/errorMessage_textView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="No flight information were found"
+            android:layout_marginStart="25dp"
+            android:layout_marginEnd="25dp"
+            android:textSize="13sp"
+            android:fontFamily="@font/notosansmedium"
+            android:textColor="#B22222"
+            android:visibility="gone"/>
 
     </LinearLayout>
 

@@ -1,6 +1,8 @@
 package com.example.test12
 
+import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import com.example.test12.databinding.ActivityMainBinding
@@ -31,20 +33,37 @@ class MainActivity : AppCompatActivity() {
         //test airportCode: MIA, AMM
         binding.calculateButton.setOnClickListener {
 
-            val flightNumber = binding.flightNumberEditText.text
+            binding.errorMessageTextView.visibility = View.GONE
+            val airlineCode = binding.airlineCodeEditText.text.toString()
+            val flightNumber = binding.flightNumberEditText.text.toString()
 
-            //test call to flight info API
+            if (airlineCode.isEmpty()) {
+                binding.airlineCodeEditText.setError("This Field is Required")
+                return@setOnClickListener
+            }
+
+            if (flightNumber.isEmpty()) {
+                binding.flightNumberEditText.setError("This Field is Required")
+                return@setOnClickListener
+            }
 
             RetrofitServiceFactory.createFlightInfoService().getFlightByAirlineAndNumber(
-                "AA",
-                "2405"
+                airlineCode,
+                flightNumber
             )
                 .enqueue(object : Callback<JsonObject> {
                     override fun onResponse(
                         call: Call<JsonObject>,
                         response: Response<JsonObject>
                     ) {
+
+                        Log.e("JSON", response.body().toString())
                         val responseAsJSON = JSONObject(Gson().toJson(response.body()))
+
+                        if (responseAsJSON["success"].equals(false)) {
+                            binding.errorMessageTextView.visibility = View.VISIBLE
+                            return
+                        }
                         //binding.tvResult.text = responseAsJSON.toString(1)
                         val estimatedDepartureTime = Utils.getEstimatedDepartureFromRequest(
                             responseAsJSON
@@ -65,7 +84,7 @@ class MainActivity : AppCompatActivity() {
                     }
 
                     override fun onFailure(call: Call<JsonObject>, t: Throwable) {
-
+                        binding.errorMessageTextView.visibility = View.VISIBLE
                     }
 
 
@@ -128,5 +147,12 @@ class MainActivity : AppCompatActivity() {
              */
         }
 
+        binding.chatbotImageView.setOnClickListener {
+            startActivity(Intent(this, ChatbotActivity::class.java))
+        }
+
+        binding.helpImageView.setOnClickListener {
+            startActivity(Intent(this, HelpActivity::class.java))
+        }
     }
 }
