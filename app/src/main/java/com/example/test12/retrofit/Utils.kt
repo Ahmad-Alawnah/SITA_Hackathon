@@ -1,5 +1,6 @@
 package com.example.test12.retrofit
 
+import android.util.Log
 import org.json.JSONArray
 import org.json.JSONObject
 import java.time.LocalDateTime
@@ -40,12 +41,12 @@ class Utils {
                 .getJSONObject("departure").getJSONObject("airport").getString("iataCode")
 
 
-        fun getLatitudeAndLongitude(response: JSONObject): Pair<Double,Double>{
+        fun getLatitudeAndLongitude(response: JSONObject): String {
 //            if (!response.has("airports")){ errors should be checked via status codes in the callbacks and not here
 //                return Pair(0.0,0.0)
 //            }
             val airport = response.getJSONArray("airports").getJSONObject(0)
-            return Pair(airport.getDouble("latitude"), airport.getDouble("longitude"))
+            return "${airport.getDouble("latitude")},${airport.getDouble("longitude")}"
         }
 
 
