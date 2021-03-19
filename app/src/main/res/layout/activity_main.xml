@@ -163,6 +163,7 @@
                 android:orientation="vertical"
                 android:padding="15dp">
 
+                <!-- TODO: you should leave to the airport from your current location at -->
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -174,7 +175,7 @@
                     app:layout_constraintStart_toStartOf="parent" />
 
                 <TextView
-                    android:id="@+id/tvResult"
+                    android:id="@+id/tvLeaveTime"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/notosansmedium"
@@ -204,6 +205,8 @@
                 android:orientation="vertical"
                 android:padding="15dp">
 
+
+                <!-- TODO: approx time to reach the airport and finish paper word -->
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -215,11 +218,12 @@
                     app:layout_constraintStart_toStartOf="parent" />
 
                 <TextView
+                    android:id="@+id/tvTotalTime"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/notosansmedium"
-                    android:textSize="20sp"
                     android:text="2 Hours\n40 Minutes"
+                    android:textSize="20sp"
                     app:layout_constraintBottom_toTopOf="@+id/cardView"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.498"

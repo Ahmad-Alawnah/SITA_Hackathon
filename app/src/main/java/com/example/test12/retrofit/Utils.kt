@@ -11,9 +11,17 @@ import kotlin.collections.ArrayList
 class Utils {
 
     companion object{
-        fun getEstimatedDepartureFromRequest(response: JSONObject): String =
-            response.getJSONArray("flightRecords").getJSONObject(0)
-                .getJSONObject("departure").getString("estimated")
+        fun getEstimatedDepartureFromRequest(response: JSONObject): String {
+            val departure = response.getJSONArray("flightRecords").getJSONObject(0)
+                    .getJSONObject("departure")
+            if (departure.has("estimated")){
+                return departure.getString("estimated")
+            }
+            else{
+                return departure.getString("scheduled")
+            }
+
+        }
 
 
         fun getSumOfLongestCheckpointsOrBufferTimeInMinutes(response: JSONObject):Int{
