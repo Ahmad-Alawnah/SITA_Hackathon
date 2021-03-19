@@ -14,17 +14,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <Button
-        android:id="@+id/btnAddReply"
-        style="@style/Widget.AppCompat.Button.Borderless"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:background="@color/black"
-        android:text="Reply"
-        app:layout_constraintBottom_toTopOf="@+id/cardView3"
-        app:layout_constraintStart_toStartOf="parent" />
-
     <androidx.cardview.widget.CardView
         android:id="@+id/cardView3"
         android:layout_width="match_parent"
@@ -58,7 +47,7 @@
                 android:inputType="textPersonName" />
 
             <ImageView
-                android:id="@+id/btnAddMessage"
+                android:id="@+id/btnSend"
                 android:layout_width="0dp"
                 android:layout_height="30dp"
                 android:layout_gravity="center"

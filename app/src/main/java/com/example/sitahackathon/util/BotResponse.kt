@@ -1,14 +1,15 @@
 package com.example.sitahackathon.util
 
+import com.example.sitahackathon.ChatbotActivity
 import com.example.sitahackathon.util.Constants.open_google
 import com.example.sitahackathon.util.Constants.open_search
 
 object BotResponse {
-    fun basicResponses(_message: String):String{
+    fun basicResponses(_message: String, callingActivity: ChatbotActivity){
         val random = (0..2).random()
         val m =  _message.toLowerCase()
-
-        return when{
+        //TODO: Simulate a 2 seconds delay with simple responses (just to make things fancier)
+        callingActivity.onBotReply(when{
             // hi
             m.contains("hi")->{
                 when(random) {
@@ -39,7 +40,7 @@ object BotResponse {
                     2 -> "Try asking me something different"
                     else -> "error"
                 }
-        }
+        })
     }
 
 }
