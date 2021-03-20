@@ -3,6 +3,7 @@ package com.example.sitahackathon.util
 import com.example.sitahackathon.ChatbotActivity
 import com.example.sitahackathon.util.Constants.open_google
 import com.example.sitahackathon.util.Constants.open_search
+import com.example.sitahackathon.util.Constants.open_time
 
 object BotResponse {
     fun basicResponses(_message: String, callingActivity: ChatbotActivity){
@@ -34,6 +35,11 @@ object BotResponse {
             m.contains("search") && m.contains("google")->{
                 open_search
             }
+            m.contains("time") && m.contains("now")->{
+                open_time
+            }
+
+
             else ->
                 when(random) {
                     0 -> "I don't understand"
