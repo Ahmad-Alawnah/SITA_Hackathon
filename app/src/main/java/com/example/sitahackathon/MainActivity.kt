@@ -134,7 +134,7 @@ class MainActivity : AppCompatActivity(){
 
                                                                 val responseAsJSON = JSONObject(Gson().toJson(response.body()))
                                                                 val totalTime = time + Utils.getTimeInMinutesFromGraphHopperResponse(responseAsJSON) + 30
-                                                                offsetDateTime = offsetDateTime.minusMinutes(totalTime.toLong())
+                                                                offsetDateTime = offsetDateTime.minusMinutes(totalTime.toLong() + 30)
                                                                 binding.tvLeaveTime.text =
                                                                         DateTimeFormatter.ofPattern("dd/MM/yyyy hh:mm a").format(
                                                                                 offsetDateTime

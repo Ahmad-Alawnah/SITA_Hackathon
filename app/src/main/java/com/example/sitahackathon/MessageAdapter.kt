@@ -23,6 +23,7 @@ class MessageAdapter(var messages: ArrayList<Message>): RecyclerView.Adapter<Mes
     }
 
     override fun onBindViewHolder(holder: MessageViewHolder, position: Int) {
+        holder.setIsRecyclable(false)
         if (messages[position].type == MessageType.SENT){
             holder.binding.chatbotCardView.visibility = View.INVISIBLE
             holder.binding.userTextView.text = messages[position].text

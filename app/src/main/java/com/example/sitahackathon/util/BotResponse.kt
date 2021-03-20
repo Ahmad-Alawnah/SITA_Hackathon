@@ -8,6 +8,7 @@ object BotResponse {
     fun basicResponses(_message: String, callingActivity: ChatbotActivity){
         val random = (0..2).random()
         val m =  _message.toLowerCase()
+
         //TODO: Simulate a 2 seconds delay with simple responses (just to make things fancier)
         callingActivity.onBotReply(when{
             // hi
