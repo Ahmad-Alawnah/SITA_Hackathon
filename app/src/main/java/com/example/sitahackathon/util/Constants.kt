@@ -2,7 +2,7 @@ package com.example.sitahackathon.util
 
 object Constants {
     const val open_google = "Opening Google. . ." //for testing
-    const val open_search = "Searching. . ." //for testing
-    const val open_uber = "Ordering uber at your current location . ." //for testing
+    const val get_flight = "Getting flight info. . ." //for testing
+    const val open_uber = "Opening uber. . ." //for testing
 
 }
