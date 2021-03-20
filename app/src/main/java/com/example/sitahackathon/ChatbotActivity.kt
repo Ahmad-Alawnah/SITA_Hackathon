@@ -1,13 +1,19 @@
 package com.example.sitahackathon
 
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.sitahackathon.data.BotMessage
 import com.example.sitahackathon.databinding.ActivityChatbotBinding
+import com.example.sitahackathon.retrofit.RetrofitServiceFactory
 import com.example.sitahackathon.util.BotResponse
 import com.example.sitahackathon.util.Constants.open_google
+import com.example.sitahackathon.util.Constants.open_search
+import com.example.sitahackathon.util.Constants.open_time
+import com.example.sitahackathon.util.Time
 
 class ChatbotActivity : AppCompatActivity() {
 
@@ -42,9 +48,17 @@ class ChatbotActivity : AppCompatActivity() {
         when(reply){
             open_google -> {
                 Toast.makeText(this, "Opening google", Toast.LENGTH_SHORT).show()
+                val site = Intent(Intent.ACTION_VIEW)
+                site.data = Uri.parse("https://www.google.com/")
+                startActivity(site)
             }
-            else -> {
 
+            open_search->{
+                val t = RetrofitServiceFactory.createFlightInfoService().getFlightByAirlineAndNumber(
+                    "rj",
+                    "185"
+                )
+                Toast.makeText(this, t.toString(), Toast.LENGTH_SHORT).show()
             }
         }
 

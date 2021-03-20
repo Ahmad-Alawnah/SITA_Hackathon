@@ -3,7 +3,7 @@ package com.example.sitahackathon.util
 import com.example.sitahackathon.ChatbotActivity
 import com.example.sitahackathon.util.Constants.open_google
 import com.example.sitahackathon.util.Constants.open_search
-import com.example.sitahackathon.util.Constants.open_time
+import com.example.sitahackathon.util.Constants.open_uber
 
 object BotResponse {
     fun basicResponses(_message: String, callingActivity: ChatbotActivity){
@@ -36,9 +36,12 @@ object BotResponse {
                 open_search
             }
             m.contains("time") && m.contains("now")->{
-                open_time
+                val t = Time.timeStamp()
+                t.toString()
             }
-
+            m.contains("uber")->{
+                open_uber
+            }
 
             else ->
                 when(random) {
