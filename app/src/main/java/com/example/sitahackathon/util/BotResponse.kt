@@ -32,7 +32,7 @@ object BotResponse {
             m.contains("open") && m.contains("google")->{
                 open_google
             }
-            m.contains("search") && m.contains("google")->{
+            m.contains("search") && m.contains("flight")->{
                 open_search
             }
             m.contains("time") && m.contains("now")->{

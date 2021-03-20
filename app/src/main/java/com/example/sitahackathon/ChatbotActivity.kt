@@ -1,19 +1,17 @@
 package com.example.sitahackathon
 
+import android.content.ActivityNotFoundException
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.sitahackathon.data.BotMessage
 import com.example.sitahackathon.databinding.ActivityChatbotBinding
-import com.example.sitahackathon.retrofit.RetrofitServiceFactory
 import com.example.sitahackathon.util.BotResponse
 import com.example.sitahackathon.util.Constants.open_google
 import com.example.sitahackathon.util.Constants.open_search
-import com.example.sitahackathon.util.Constants.open_time
-import com.example.sitahackathon.util.Time
+import com.example.sitahackathon.util.Constants.open_uber
 
 class ChatbotActivity : AppCompatActivity() {
 
@@ -26,7 +24,11 @@ class ChatbotActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         binding.rvMessages.adapter = this.adapter
-        val layoutManager = LinearLayoutManager(binding.rvMessages.context, LinearLayoutManager.VERTICAL, false)
+        val layoutManager = LinearLayoutManager(
+            binding.rvMessages.context,
+            LinearLayoutManager.VERTICAL,
+            false
+        )
         binding.rvMessages.layoutManager = layoutManager
         binding.btnSend.setOnClickListener {
             if (binding.etText.toString().trim()!="") {
@@ -53,13 +55,29 @@ class ChatbotActivity : AppCompatActivity() {
                 startActivity(site)
             }
 
-            open_search->{
-                val t = RetrofitServiceFactory.createFlightInfoService().getFlightByAirlineAndNumber(
-                    "rj",
-                    "185"
-                )
-                Toast.makeText(this, t.toString(), Toast.LENGTH_SHORT).show()
+            open_search -> {
+
             }
+
+            open_uber -> {
+                try {
+                    val launchIntent =
+                    packageManager.getLaunchIntentForPackage("com.ubercab")
+                    if (launchIntent != null) {
+                        startActivity(launchIntent)
+                    }
+                } catch (e: ActivityNotFoundException) {
+                    // Define what your app should do if no activity can handle the intent.
+                        Toast.makeText(
+                            this,
+                            "There is no package available in android",
+                            Toast.LENGTH_LONG
+                        ).show()
+
+                }
+            }
+
+
         }
 
 
