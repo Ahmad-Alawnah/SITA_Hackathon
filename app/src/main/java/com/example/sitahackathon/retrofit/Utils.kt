@@ -19,7 +19,17 @@ class Utils {
             }
 
         }
+        fun getEstimatedArrivalFromRequest(response: JSONObject): String {
+            val arrival = response.getJSONArray("flightRecords").getJSONObject(0)
+                .getJSONObject("arrival")
+            if (arrival.has("estimated")){
+                return arrival.getString("estimated")
+            }
+            else{
+                return arrival.getString("scheduled")
+            }
 
+        }
 
         fun getSumOfLongestCheckpointsOrBufferTimeInMinutes(response: JSONObject):Int{
             if (!response.has("current")){

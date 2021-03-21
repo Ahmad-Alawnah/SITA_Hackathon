@@ -59,12 +59,26 @@
                 android:text="The purpose of the chatbot functionality is to provide a seamless interaction between the user and to automate information, just ask anything about your flight and it will give you the answer."
                 android:textSize="15sp" />
 
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/notosansmedium"
+                android:text="Q4: What are the supported bot commands?"
+                android:textSize="18sp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/notosansregular"
+                android:text="1- flight {airline code} {flight number}: gets the departure and arrival time for a flight\n2- Open google: opens google\n3- Open uber: opens Uber"
+                android:textSize="15sp" />
+
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/notosansmedium"
-                android:text="Q4: How to interpret the given output ?"
+                android:text="Q5: How to interpret the given output ?"
                 android:textSize="18sp" />
 
             <TextView
