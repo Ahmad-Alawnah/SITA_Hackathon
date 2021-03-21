@@ -101,9 +101,9 @@ class ChatbotActivity : AppCompatActivity() {
                         zonedDateTime = Utils.convertStringToZonedDateTime(estimatedArrivalTime)
                         val arrivalTime = zonedDateTime.toOffsetDateTime().withOffsetSameInstant(OffsetDateTime.now().offset)
 
-                        onBotReply("You flight is estimated to depart on " +
-                                DateTimeFormatter.ofPattern("dd/MM/yyyy hh:mm a").format(departureTime) + ", and it is estimated " +
-                                "to arrive to its destination at " + DateTimeFormatter.ofPattern("dd/MM/yyyy hh:mm a").format(arrivalTime))
+                        onBotReply("Departure: " +
+                                DateTimeFormatter.ofPattern("dd/MM/yyyy hh:mm a").format(departureTime) + "\n" +
+                                "Arrival: " + DateTimeFormatter.ofPattern("dd/MM/yyyy hh:mm a").format(arrivalTime))
 
                     }
 
