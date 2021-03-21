@@ -75,6 +75,7 @@ class ChatbotActivity : AppCompatActivity() {
 
     fun onBotReply(reply: String){
         adapter.addMessage(Message(reply, MessageType.RECEIVED))
+        binding.rvMessages.scrollToPosition(adapter.itemCount - 1)
         when(reply){
             open_google -> {
                 val site = Intent(Intent.ACTION_VIEW)
